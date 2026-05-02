@@ -1,0 +1,33 @@
+name: Release plugin-memberpress (wp.org + GitHub)
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: No internal URLs
+        run: bash ./scripts/check-no-internal-urls.sh ./
+      - name: Deploy to WordPress.org
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.WP_ORG_USER }}
+          SVN_PASSWORD: ${{ secrets.WP_ORG_PASSWORD }}
+          SLUG: nakopay-memberpress
+          BUILD_DIR: ./
+      - name: Build zip
+        run: |
+          cd .
+          zip -r ../nakopay-memberpress.zip memberpress -x '*/node_modules/*' '*/vendor/*' '*/.git/*'
+      - name: GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: nakopay-memberpress.zip
+          generate_release_notes: true
+          name: MemberPress ${{ github.ref_name }}
