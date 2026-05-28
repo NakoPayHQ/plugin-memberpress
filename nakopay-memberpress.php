@@ -3,7 +3,7 @@
  * Plugin Name: NakoPay for MemberPress
  * Plugin URI:  https://nakopay.com/integrations/memberpress
  * Description: Accept Bitcoin and crypto for MemberPress memberships and subscriptions.
- * Version:     0.1.0
+ * Version: 0.3.1
  * Author:      NakoPay
  * Author URI:  https://nakopay.com
  * License:     MIT
